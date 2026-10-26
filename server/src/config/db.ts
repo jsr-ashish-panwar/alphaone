@@ -10,6 +10,7 @@ export const connectDB = async (customUri?: string): Promise<string> => {
     if (!uri || uri === 'memory') {
       if (!mongod) {
         console.log('⚡ Initializing embedded in-memory MongoDB server...');
+        // @ts-ignore
         const { MongoMemoryServer } = await import('mongodb-memory-server');
         mongod = await MongoMemoryServer.create({
           instance: {
