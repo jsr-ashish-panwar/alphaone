@@ -355,7 +355,7 @@ export const MembersPage: React.FC = () => {
                     type="password"
                     maxLength={6}
                     required
-                    placeholder="e.g. 1234"
+                    placeholder="••••"
                     value={pin}
                     onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
                     className="w-full px-3.5 py-2.5 rounded-xl text-sm font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
@@ -445,7 +445,7 @@ export const MembersPage: React.FC = () => {
                   type="password"
                   maxLength={6}
                   required
-                  placeholder="e.g. 5678"
+                  placeholder="••••"
                   value={newPin}
                   onChange={(e) => setNewPin(e.target.value.replace(/\D/g, ''))}
                   className="w-full px-3.5 py-2.5 rounded-xl text-center text-xl font-mono tracking-widest bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"

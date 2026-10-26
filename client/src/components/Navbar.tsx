@@ -103,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
               />
               <div className="absolute right-0 mt-2 w-56 p-1.5 rounded-2xl bg-white dark:bg-slate-800 shadow-2xl border border-slate-200 dark:border-slate-700 z-50 animate-in fade-in zoom-in-95">
                 <div className="px-3 py-2 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                  Switch Roommate (PIN: 1234)
+                  Switch Roommate
                 </div>
                 {demoUsers.map((u) => {
                   const isCurrent = user?.username === u.username;
