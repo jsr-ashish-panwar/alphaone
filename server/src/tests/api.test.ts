@@ -28,30 +28,30 @@ describe('RoomMate Split End-to-End API Tests', () => {
 
   it('POST /api/auth/login fails with invalid PIN', async () => {
     const res = await request(app).post('/api/auth/login').send({
-      username: 'rohan',
+      username: 'ashish',
       pin: '9999',
     });
     expect(res.status).toBe(401);
     expect(res.body.success).toBe(false);
   });
 
-  it('POST /api/auth/login succeeds with correct PIN 1234', async () => {
+  it('POST /api/auth/login succeeds with correct PIN 1111', async () => {
     const res = await request(app).post('/api/auth/login').send({
-      username: 'rohan',
-      pin: '1234',
+      username: 'ashish',
+      pin: '1111',
     });
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
     expect(res.body.token).toBeDefined();
-    expect(res.body.user.username).toBe('rohan');
+    expect(res.body.user.username).toBe('ashish');
     expect(res.body.flat.name).toBe('Alpha C-42');
   });
 
   it('GET /api/balances/dashboard returns dashboard data with auth token', async () => {
     // Login
     const loginRes = await request(app).post('/api/auth/login').send({
-      username: 'rohan',
-      pin: '1234',
+      username: 'ashish',
+      pin: '1111',
     });
     const token = loginRes.body.token;
 
@@ -67,13 +67,13 @@ describe('RoomMate Split End-to-End API Tests', () => {
   });
 
   it('POST /api/expenses creates an expense only with verified PIN', async () => {
-    // Login as Aarav
+    // Login as Ashish
     const loginRes = await request(app).post('/api/auth/login').send({
-      username: 'aarav',
-      pin: '1234',
+      username: 'ashish',
+      pin: '1111',
     });
     const token = loginRes.body.token;
-    const aaravMemId = loginRes.body.membership.id;
+    const ashishMemId = loginRes.body.membership.id;
 
     // Get members
     const membersRes = await request(app)
@@ -89,7 +89,7 @@ describe('RoomMate Split End-to-End API Tests', () => {
         title: 'Cooking Gas Cylinder',
         category: 'Other',
         amountINR: 950,
-        payerMembershipId: aaravMemId,
+        payerMembershipId: ashishMemId,
         eligibleMemberIds: allMemberIds,
         pin: '0000', // Wrong PIN
       });
@@ -103,9 +103,9 @@ describe('RoomMate Split End-to-End API Tests', () => {
         title: 'Cooking Gas Cylinder',
         category: 'Other',
         amountINR: 950,
-        payerMembershipId: aaravMemId,
+        payerMembershipId: ashishMemId,
         eligibleMemberIds: allMemberIds,
-        pin: '1234', // Correct PIN
+        pin: '1111', // Correct PIN
       });
     expect(successRes.status).toBe(201);
     expect(successRes.body.success).toBe(true);

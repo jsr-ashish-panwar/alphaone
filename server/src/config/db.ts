@@ -3,9 +3,9 @@ import { ENV } from './env.js';
 
 let mongod: any = null;
 
-export const connectDB = async (): Promise<string> => {
+export const connectDB = async (customUri?: string): Promise<string> => {
   try {
-    let uri = ENV.MONGODB_URI;
+    let uri = customUri || process.env.MONGODB_URI || ENV.MONGODB_URI;
 
     if (!uri || uri === 'memory') {
       if (!mongod) {
@@ -14,7 +14,6 @@ export const connectDB = async (): Promise<string> => {
         mongod = await MongoMemoryServer.create({
           instance: {
             dbName: 'alpha_c42_split',
-            storageEngine: 'ephemeralForTest',
           },
         });
       }
