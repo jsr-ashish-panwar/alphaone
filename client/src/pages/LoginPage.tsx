@@ -18,7 +18,7 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('ashish');
-  const [pin, setPin] = useState('1234');
+  const [pin, setPin] = useState('1111');
   const [flatCode, setFlatCode] = useState('ALPHA-C42');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,15 +41,15 @@ export const LoginPage: React.FC = () => {
   };
 
   const demoAccounts = [
-    { username: 'ashish', name: 'Ashish Panwar (Admin)', role: 'Admin' },
-    { username: 'hitesh', name: 'Hitesh Chauhan', role: 'Member' },
-    { username: 'govind', name: 'Govind Sharma', role: 'Member' },
-    { username: 'pd', name: 'PD Bhai', role: 'Member' },
+    { username: 'ashish', name: 'Ashish Panwar (Admin)', role: 'Admin', pin: '1111' },
+    { username: 'hitesh', name: 'Hitesh Chauhan', role: 'Member', pin: '2222' },
+    { username: 'govind', name: 'Govind Sharma', role: 'Member', pin: '3333' },
+    { username: 'pd', name: 'PD Bhai', role: 'Member', pin: '4444' },
   ];
 
-  const handleSelectDemo = (u: string) => {
-    setUsername(u);
-    setPin('1234');
+  const handleSelectDemo = (d: { username: string; pin: string }) => {
+    setUsername(d.username);
+    setPin(d.pin);
     setFlatCode('ALPHA-C42');
   };
 
@@ -71,16 +71,18 @@ export const LoginPage: React.FC = () => {
         <div className="bg-white dark:bg-slate-900 py-8 px-6 sm:px-10 shadow-2xl rounded-3xl border border-slate-200/80 dark:border-slate-800">
           {/* Demo Roommates Quick-Selector */}
           <div className="mb-6 p-3 rounded-2xl bg-brand-50/70 dark:bg-brand-950/40 border border-brand-200/60 dark:border-brand-800/60">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-brand-900 dark:text-brand-300 mb-2 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-              <span>Quick Demo Roommates (PIN: 1234)</span>
+            <div className="text-[11px] font-bold uppercase tracking-wider text-brand-900 dark:text-brand-300 mb-2 flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-brand-600" />
+                <span>Quick Roommates (1-Tap Auto-Fill)</span>
+              </span>
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               {demoAccounts.map((d) => (
                 <button
                   key={d.username}
                   type="button"
-                  onClick={() => handleSelectDemo(d.username)}
+                  onClick={() => handleSelectDemo(d)}
                   className={`px-2.5 py-1.5 rounded-xl text-xs font-semibold text-left transition border ${
                     username === d.username
                       ? 'bg-brand-600 text-white border-brand-600 shadow-sm'
@@ -88,6 +90,7 @@ export const LoginPage: React.FC = () => {
                   }`}
                 >
                   <span className="block truncate">{d.name}</span>
+                  <span className="block text-[10px] opacity-75 font-mono">PIN: {d.pin}</span>
                 </button>
               ))}
             </div>

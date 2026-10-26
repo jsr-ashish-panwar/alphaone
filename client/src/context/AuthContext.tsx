@@ -109,7 +109,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const quickSwitchUser = async (username: string) => {
     setIsLoading(true);
     try {
-      const ok = await login(username, '1234');
+      const pinMap: Record<string, string> = {
+        ashish: '1111',
+        hitesh: '2222',
+        govind: '3333',
+        pd: '4444',
+      };
+      const pin = pinMap[username] || '1111';
+      const ok = await login(username, pin);
       if (!ok) {
         error('Failed to switch user');
       }

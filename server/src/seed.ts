@@ -23,14 +23,19 @@ export const seedDatabase = async () => {
   await Payment.deleteMany({});
   await AuditLog.deleteMany({});
 
-  const defaultPinHash = await bcrypt.hash('1234', 10);
+  const [ashishPinHash, hiteshPinHash, govindPinHash, pdPinHash] = await Promise.all([
+    bcrypt.hash('1111', 10), // Ashish: 1111
+    bcrypt.hash('2222', 10), // Hitesh: 2222
+    bcrypt.hash('3333', 10), // Govind: 3333
+    bcrypt.hash('4444', 10), // PD Bhai: 4444
+  ]);
 
   // 1. Create the 4 Roommate Users
   const ashish = await User.create({
     name: 'Ashish Panwar',
     username: 'ashish',
     email: 'ashish.panwar@example.com',
-    pinHash: defaultPinHash,
+    pinHash: ashishPinHash,
     accountStatus: 'active',
   });
 
@@ -38,7 +43,7 @@ export const seedDatabase = async () => {
     name: 'Hitesh Chauhan',
     username: 'hitesh',
     email: 'hitesh.chauhan@example.com',
-    pinHash: defaultPinHash,
+    pinHash: hiteshPinHash,
     accountStatus: 'active',
   });
 
@@ -46,7 +51,7 @@ export const seedDatabase = async () => {
     name: 'Govind Sharma',
     username: 'govind',
     email: 'govind.sharma@example.com',
-    pinHash: defaultPinHash,
+    pinHash: govindPinHash,
     accountStatus: 'active',
   });
 
@@ -54,7 +59,7 @@ export const seedDatabase = async () => {
     name: 'PD Bhai',
     username: 'pd',
     email: 'pd.bhai@example.com',
-    pinHash: defaultPinHash,
+    pinHash: pdPinHash,
     accountStatus: 'active',
   });
 
@@ -230,11 +235,11 @@ export const seedDatabase = async () => {
   console.log('✅ Database seeded successfully for 4 roommates!');
   console.log('--------------------------------------------------');
   console.log('Flat Code: ALPHA-C42');
-  console.log('Roommates (PIN: 1234):');
-  console.log('  1. Ashish Panwar (ashish) - Admin');
-  console.log('  2. Hitesh Chauhan (hitesh)');
-  console.log('  3. Govind Sharma (govind)');
-  console.log('  4. PD Bhai (pd)');
+  console.log('Roommates & PINs:');
+  console.log('  1. Ashish Panwar (ashish) - PIN: 1111 (Admin)');
+  console.log('  2. Hitesh Chauhan (hitesh) - PIN: 2222');
+  console.log('  3. Govind Sharma (govind)  - PIN: 3333');
+  console.log('  4. PD Bhai (pd)            - PIN: 4444');
   console.log('Categories:');
   console.log('  1. Flat Rent: ₹15,500');
   console.log('  2. Electricity Bill: Entered by anyone when it arrives');
