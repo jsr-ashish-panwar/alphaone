@@ -1,6 +1,13 @@
-const API_BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined) ||
-  (import.meta.env.VITE_API_URL as string | undefined) ||
-  '/api';
+const getApiBase = (): string => {
+  const envUrl =
+    (import.meta.env.VITE_API_BASE_URL as string | undefined) ||
+    (import.meta.env.VITE_API_URL as string | undefined);
+  if (!envUrl) return '/api';
+  const clean = envUrl.trim().replace(/\/+$/, '');
+  return clean.startsWith('http') && !clean.endsWith('/api') ? `${clean}/api` : clean;
+};
+
+const API_BASE = getApiBase();
 
 export class ApiError extends Error {
   status: number;
@@ -25,11 +32,21 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers,
-    credentials: 'include',
-  });
+  const url = `${API_BASE}${endpoint}`;
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      ...options,
+      headers,
+      credentials: 'include',
+    });
+  } catch (netErr: any) {
+    console.error(`Network error reaching ${url}:`, netErr);
+    throw new ApiError(
+      `Cannot connect to backend server. Make sure the backend on Render is active.`,
+      0
+    );
+  }
 
   // Handle CSV / binary download
   if (response.headers.get('content-type')?.includes('text/csv')) {

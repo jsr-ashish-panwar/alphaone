@@ -5,16 +5,21 @@ import { seedDatabaseIfEmpty } from './seed.js';
 
 const startServer = async () => {
   try {
-    await connectDB();
-
-    // Auto-seed demo data if flat database has 0 flats
-    await seedDatabaseIfEmpty();
-
     const app = createApp();
-    const server = app.listen(ENV.PORT, () => {
-      console.log(`🚀 RoomMate Split server running on http://localhost:${ENV.PORT}`);
-      console.log(`📡 Health endpoint: http://localhost:${ENV.PORT}/api/health`);
+    const port = Number(ENV.PORT) || 5000;
+
+    const server = app.listen(port, '0.0.0.0', () => {
+      console.log(`🚀 RoomMate Split server running on port ${port}`);
+      console.log(`📡 Health endpoint: /api/health`);
     });
+
+    try {
+      await connectDB();
+      // Auto-seed demo data if flat database has 0 flats
+      await seedDatabaseIfEmpty();
+    } catch (dbError) {
+      console.error('⚠️ Initial database connection error:', dbError);
+    }
 
     const shutdown = async () => {
       console.log('\n🛑 Gracefully shutting down server...');
